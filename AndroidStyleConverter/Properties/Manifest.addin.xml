@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+   <ExtensionModel>
+       <Extension path = "/MonoDevelop/Ide/Commands/Edit">
+           <Command id = "AndroidStyleConverter.AndroidStyleConverterCommands.ConvertToStyles"
+               _label = "Convert to Styles"
+               defaultHandler = "AndroidStyleConverter.AndroidStyleConverterHandler" />
+       </Extension>
+
+       <Extension path = "/MonoDevelop/Ide/MainMenu/Edit">
+           <CommandItem id="AndroidStyleConverter.AndroidStyleConverterCommands.ConvertToStyles" />
+       </Extension>
+   </ExtensionModel>
