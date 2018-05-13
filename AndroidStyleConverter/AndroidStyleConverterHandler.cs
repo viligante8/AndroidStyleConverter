@@ -1,17 +1,15 @@
 ﻿using MonoDevelop.Components.Commands;
-using MonoDevelop.Components.Extensions;
 using MonoDevelop.Ide;
-using MonoDevelop.Ide.Gui;
 using System;
 using System.Text;
 using System.Text.RegularExpressions;
 using Xwt;
 
-namespace AndroidStyleConverterCommands
+namespace AndroidStyleConverter
 {
     class AndroidStyleConverterHandler : CommandHandler
     {
-		private static string pattern = "(\\w+:*\\w+)=\"(.*)\"";
+		private static string pattern = "(\\w+:\\w+)=\"(.*)\"";
 
 		protected override void Run()
 		{
@@ -21,14 +19,18 @@ namespace AndroidStyleConverterCommands
 			var selection = editor.SelectionRegion;
 			var segment = selection.GetSegment(editor);
 			var selectionString = editor.GetTextAt(segment.Offset, segment.Length);
-  
-			MatchCollection matches = Regex.Matches(selectionString, pattern);
+
+			var styles = selectionString.Split('\n');
 
             StringBuilder sb = new StringBuilder();
 
-            for (int i = 0; i < matches.Count - 1; i+=2)
+            for (int i = 0; i < styles.Length - 1; i++)
             {
-                sb.AppendFormat("<item name=\"{0}\">{1}</item>\n\t", matches[i].Value, matches[i + 1].Value);
+				var style = styles[i].Trim();;
+				var styleKey = style.Split('=')[0].Trim();;
+				var styleValue = style.Split('=')[1].Replace("\"","").Trim();;
+
+                sb.AppendFormat("<item name=\"{0}\">{1}</item>\n", styleKey, styleValue);
             }
 
 			Clipboard.SetText(sb.ToString());
